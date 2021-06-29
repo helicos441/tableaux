@@ -4,4 +4,4 @@ Pour installer
 - Modifier le fichier .env, notamment la partie DATABASE avec les infos de connexion à la DB 'pictures'
 - $ php artisan migrate
 
-La commande 'php artisan serve' peut aussi être utilisée pour le mode de développement (sans avoir besoin de configurer Apache).
+La commande 'php artisan serve' permet d'afficher l'application en mode développement (sans avoir besoin de configurer Apache).
