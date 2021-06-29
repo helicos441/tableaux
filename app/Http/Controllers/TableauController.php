@@ -26,7 +26,7 @@ class TableauController extends Controller
      */
     public function create()
     {
-        //
+        return view('tableaux/create');
     }
 
     /**
@@ -37,7 +37,25 @@ class TableauController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $params = $request->validate([
+            'name' => 'required|string',
+            'price' => 'required|numeric',
+            'comments' => 'nullable|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        $tableau = Tableau::create($params);
+
+        // Enregistrement de l'image dans le storage
+        if (isset($params['image'])) {
+            $imageName = time(). '.' .$params['image']->extension();
+            $params['image']->move(public_path('images'), $imageName);
+            $tableau->path = $imageName;
+            $tableau->save();
+        }
+
+        return redirect('/tableaux')
+            ->with('success', 'Tableau ajouté avec succès.');
     }
 
     /**
@@ -48,7 +66,7 @@ class TableauController extends Controller
      */
     public function show(Tableau $tableaux)
     {
-        //
+        //return view('tableaux/show', ['tableau' => $tableaux]);
     }
 
     /**
@@ -59,7 +77,7 @@ class TableauController extends Controller
      */
     public function edit(Tableau $tableaux)
     {
-        //
+        return view('tableaux/edit', ['tableau' => $tableaux]);
     }
 
     /**
@@ -71,7 +89,30 @@ class TableauController extends Controller
      */
     public function update(Request $request, Tableau $tableaux)
     {
-        //
+        $params = $request->validate([
+            'name' => 'required|string',
+            'price' => 'required|numeric',
+            'comments' => 'nullable|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        $tableaux->update($params);
+
+        // Enregistrement de l'image dans le storage
+        if (isset($params['image'])) {
+            // Si une image existe déjà, on la supprime
+            if ($tableaux->path) {
+                unlink(public_path('images/' . $tableaux->path));
+            }
+
+            $imageName = time(). '.' .$params['image']->extension();
+            $params['image']->move(public_path('images'), $imageName);
+            $tableaux->path = $imageName;
+            $tableaux->save();
+        }
+
+        return redirect('/tableaux')
+            ->with('success', 'Tableau modifié avec succès.');
     }
 
     /**
@@ -82,7 +123,12 @@ class TableauController extends Controller
      */
     public function destroy(Tableau $tableaux): RedirectResponse
     {
-        $tableaux->destroy();
+        // Si le tableau dispose d'une image, on la supprime
+        if ($tableaux->path) {
+            unlink(public_path('images/' . $tableaux->path));
+        }
+
+        $tableaux->delete();
 
         return redirect('/tableaux')
             ->with('success', 'Tableau supprimé avec succès');

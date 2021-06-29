@@ -5,6 +5,10 @@
 @endsection
 
 @section('content')
+    <div>
+        <a href="{{ route('tableaux.create') }}" class="btn btn-success">Ajouter un tableau</a>
+    </div>
+
     <table class="table">
         <thead>
             <tr>
@@ -23,7 +27,7 @@
                 <td>{{ $tableau->price }}</td>
                 <td>
                     @if ($tableau->path)
-                        <img src="{{ asset($tableau->path) }}" alt="Image tableau {{ $ableau->name }}">
+                        <img src="{{ asset('images/' . $tableau->path) }}" alt="Image tableau {{ $tableau->name }}" width="40" height="40">
                     @else
                         Pas d'image pour ce tableau
                     @endif
@@ -47,12 +51,7 @@
 @endsection
 
 @section('styles')
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
-<style>
-    body {
-        font-family: 'Nunito', sans-serif;
-    }
-</style>
+
 @endsection
 
 @section('javascript')

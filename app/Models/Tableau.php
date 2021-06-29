@@ -10,4 +10,10 @@ class Tableau extends Model
     use SoftDeletes;
 
     protected $table = 'tableaux';
+    protected $fillable = [
+        'name',
+        'comments',
+        'price'
+    ];
+
 }
