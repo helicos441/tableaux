@@ -20,33 +20,36 @@
                 </div>
             @endif
 
-            <form enctype="multipart/form-data" action="{{ route('tableaux.update', ['tableaux' => $tableau]) }}" method="post">
+            <form enctype="multipart/form-data" action="{{ route('pictures.update', compact('picture')) }}" method="post">
                 @csrf
                 @method('PUT')
                 <div class="form-group">
                     <label for="name">Nom du tableau</label>
-                    <input type="text" class="form-control" name="name" id="name" value="{{ $tableau->name }}">
+                    <input type="text" class="form-control" name="name" id="name" value="{{ $picture->name }}">
                 </div>
 
                 <div class="form-group">
                     <label for="price">Prix du tableau en &euro;</label>
-                    <input type="text" class="form-control" name="price" id="price" value="{{ $tableau->price }}">
+                    <input type="text" class="form-control" name="price" id="price" value="{{ $picture->price }}">
                 </div>
 
                 <div class="form-group">
                     <label for="comments">Commentaires</label>
-                    <textarea class="form-control" name="comments" id="comments">{{ $tableau->comments ?? '' }}</textarea>
+                    <textarea class="form-control" name="comments" id="comments">{{ $picture->comments ?? '' }}</textarea>
                 </div>
 
                 <div class="form-group">
                     <label for="image">Photo du tableau</label>
                     <input type="file" class="form-control" name="image" id="image">
-                    @if ($tableau->path)
-                        <img src="{{ asset('images/' . $tableau->path) }}" class="actual" title="image actuelle" width="100" height="100">
+                    @if ($picture->path)
+                        <img src="{{ asset($picture->getPath()) }}" class="actual" title="image actuelle">
                     @endif
                 </div>
 
-                <button type="submit" class="btn btn-primary add">Modifier</button>
+                <div class="buttons">
+                    <button type="submit" class="btn btn-danger">Modifier</button>
+                    <a href="{{ url()->previous() }}" class="btn btn-primary back">Retour</a>
+                </div>
             </form>
         </div>
     </div>
@@ -59,12 +62,20 @@
         margin-top: 40px;
     }
 
-    button.add {
+    img.actual {
+        margin: 10px auto;
+        padding: 10px;
+        border: 1px solid black;
+        width: 100px;
+        height: 100px;
+    }
+
+    .buttons {
         margin-top: 10px;
     }
 
-    img.actual {
-        margin: 10px auto;
+    .back {
+        margin-left: 10px;
     }
 </style>
 @endsection

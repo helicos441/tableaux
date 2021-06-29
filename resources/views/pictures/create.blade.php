@@ -20,7 +20,7 @@
                 </div>
             @endif
 
-            <form enctype="multipart/form-data" action="{{ route('tableaux.store') }}" method="post">
+            <form enctype="multipart/form-data" action="{{ route('pictures.store') }}" method="post">
                 @csrf
                 <div class="form-group">
                     <label for="name">Nom du tableau</label>
@@ -42,7 +42,10 @@
                     <input type="file" class="form-control" name="image" id="image">
                 </div>
 
-                <button type="submit" class="btn btn-primary add">Ajouter</button>
+                <div class="buttons">
+                    <button type="submit" class="btn btn-danger">Ajouter</button>
+                    <a href="{{ url()->previous() }}" class="btn btn-primary back">Retour</a>
+                </div>
             </form>
         </div>
     </div>
@@ -55,8 +58,12 @@
         margin-top: 40px;
     }
 
-    button.add {
+    .buttons {
         margin-top: 10px;
+    }
+
+    .back {
+        margin-left: 10px;
     }
 </style>
 @endsection

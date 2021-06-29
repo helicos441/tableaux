@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\TableauController;
+use App\Http\Controllers\PictureController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,4 +14,8 @@ use App\Http\Controllers\TableauController;
 |
 */
 
-Route::resource('tableaux', TableauController::class);
+Route::get('/', function () {
+    return redirect('/pictures');
+});
+
+Route::resource('pictures', PictureController::class);
